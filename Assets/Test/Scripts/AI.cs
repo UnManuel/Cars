@@ -4,6 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+	Basic AI for the ghost racer. It uses a RaceRecorder object to move without physics.
+	Enhanced mode uses an optimized version of the RaceRecorder's actual curve.
+*/
 public class AI : MonoBehaviour {
 
 	public Character character;
@@ -22,29 +26,37 @@ public class AI : MonoBehaviour {
 
 	void Update() {
 		
+		// We need two samples to interpolate
 		if(recordHead.Next != null)
 
 			if(recordHead.Value.velocity.magnitude > 0) {
 
+				// We move the ghost using velocity instead of time
 				time += Time.deltaTime * Vector3.Distance(recordHead.Value.point, recordHead.Next.Value.point) / ((recordHead.Value.velocity.magnitude + recordHead.Next.Value.velocity.magnitude) / 2);
 				
+				// Moving through the linked list using time to detect ranges
 				if(time > recordHead.Next.Value.time)
 					recordHead = recordHead.Next;
 
+				// Interpolated position
 				Vector3 position = iTween.PointOnPath(recorder.path.controlPoints, time / recorder.GetRecordTime());
 				
+				// Normalized position
 				float f = (time - recordHead.Value.time) / (recordHead.Next.Value.time - recordHead.Value.time);
 
+				// Interpolated rotation
 				Quaternion rotation = Quaternion.Slerp(recordHead.Value.transform.rotation, recordHead.Next.Value.transform.rotation, f);
 
 				target.transform.SetPositionAndRotation(position, rotation);
 
+				// Interpolated velocity
 				character.velocity = Vector3.Slerp(recordHead.Value.velocity, recordHead.Next.Value.velocity, f);
 
 			} else
 				recordHead = recordHead.Next;
 	}
 
+	// TO-DO: Make this toggleable
 	public void Enhance() {
 		recorder.OptimizePath();
 	}

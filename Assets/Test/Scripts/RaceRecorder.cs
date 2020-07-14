@@ -4,6 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+	TapeNode: Snapshot of a racer's data at a given time.
+	optimalPoint is a displaced version of the original position
+	that is closer to the center of the track.
+*/
 public class TapeNode {
 
 	const float MIN_SPEED = 0.1f;
@@ -14,13 +19,19 @@ public class TapeNode {
 
 	public TapeNode(float _time, Vector3 _velocity, Vector3 _point, Vector3 _optimalPoint, Transform _transform) {
 		time = _time;
-		velocity = _velocity.magnitude < MIN_SPEED ? Vector3.zero : _velocity;
+		velocity = _velocity.magnitude < MIN_SPEED ? Vector3.zero : _velocity;	// Enforces full-stop
 		point = _point;
 		optimalPoint = _optimalPoint;
 		transform = _transform;
 	}
 }
 
+/*
+	RaceRecorder: A class designed to record movement of a Rigidbody.
+	Samples are stored on a linked list that is later smoothed into a spline.
+	Use an Optimizer to replace movement enhancement criteria.
+	Sampling rate is customizable.
+*/
 public class RaceRecorder : MonoBehaviour {
 
 	public float startDelay = 3, samplingDelay = 1;
@@ -29,6 +40,7 @@ public class RaceRecorder : MonoBehaviour {
     
 	public Spline path;
 
+	// Dummy point to create duplicates
 	public Transform basePoint;
 
 	public Optimizer optimizer;
@@ -52,6 +64,7 @@ public class RaceRecorder : MonoBehaviour {
         
 	        time += Time.deltaTime;
 
+	        // Snapshots are evenly sampled, then interpolated
 	        if(time > samplingDelay) {
 
 	        	recordTime += time;
@@ -65,6 +78,7 @@ public class RaceRecorder : MonoBehaviour {
 
 		        tape.AddLast(new TapeNode(recordTime, car.velocity, car.transform.position, position, transform));
 
+		        // Catmull-Rom splines are made out of 4 or more vertices
 	        	if(tape.Count > 3) {
 
 	        		int i = 0;
@@ -74,20 +88,23 @@ public class RaceRecorder : MonoBehaviour {
 	        		foreach(TapeNode node in tape)
 	        			points[i++] = node.transform;
 
+	        		// We must replace the entire array with the current spline implementation
 	        		path.controlPoints = points;
 	        	}
 	        }
 	    }
     }
 
+    // TO-DO: Make the optimization toggleable
     public void OptimizePath() {
 
-		int i = 0;
+    	int i = 0;
 
-		optimize = true;
+    	optimize = true;
 
+    	// TO-DO: Transition is not smoothed-out!
     	foreach(TapeNode node in tape)
-			path.controlPoints[i++].position = node.optimalPoint;
+    		path.controlPoints[i++].position = node.optimalPoint;
 
     	path.color = Color.green;
     }
