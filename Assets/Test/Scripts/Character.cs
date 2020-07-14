@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+/*
+	Character: Model class to handle both AI and player racer characters.
+*/
 public class Character : MonoBehaviour {
 
 	[HideInInspector]
@@ -14,6 +17,7 @@ public class Character : MonoBehaviour {
 
 	public UnityEvent OnLapComplete;
 
+	// TO-DO: Use velocity to prevent lap miscount
 	public void LapCheck(FinishLine finish) {
 
 		++lapCount;

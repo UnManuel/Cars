@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/*
+	MainGhost: Main script of MainScene.unity.
+*/
 public class MainGhost : MonoBehaviour {
 
 	public Player player;

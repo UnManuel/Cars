@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+	Squeezer: Basic optimizer. It "squeezes" point data between the given range.
+*/
 public class Squeezer : Optimizer {
 
 	public Transform pivot;
