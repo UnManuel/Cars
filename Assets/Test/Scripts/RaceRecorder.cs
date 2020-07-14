@@ -43,6 +43,7 @@ public class RaceRecorder : MonoBehaviour {
 	// Dummy point to create duplicates
 	public Transform basePoint;
 
+	// Optimizer delegate
 	public Optimizer optimizer;
 
 	bool optimize = false;
