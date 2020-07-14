@@ -96,18 +96,17 @@ public class RaceRecorder : MonoBehaviour {
 	    }
     }
 
-    // TO-DO: Make the optimization toggleable
-    public void OptimizePath() {
+    public void ToggleOptimalPath(bool _optimize = true) {
 
     	int i = 0;
 
-    	optimize = true;
+    	optimize = _optimize;
 
     	// TO-DO: Transition is not smoothed-out!
     	foreach(TapeNode node in tape)
-    		path.controlPoints[i++].position = node.optimalPoint;
+    		path.controlPoints[i++].position = optimize ? node.optimalPoint : node.point;
 
-    	path.color = Color.green;
+    	path.color = optimize ? Color.green : Color.cyan;
     }
 
     public LinkedListNode<TapeNode> GetRecordHead() {

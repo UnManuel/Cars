@@ -56,8 +56,7 @@ public class AI : MonoBehaviour {
 				recordHead = recordHead.Next;
 	}
 
-	// TO-DO: Make this toggleable
-	public void Enhance() {
-		recorder.OptimizePath();
+	public void ToggleEnhancedMode(bool enhanced = true) {
+		recorder.ToggleOptimalPath(enhanced);
 	}
 }

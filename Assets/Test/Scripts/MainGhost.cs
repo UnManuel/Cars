@@ -27,6 +27,6 @@ public class MainGhost : MonoBehaviour {
 
 	public void EnhanceAI() {
 		if(AI.character.lapCount == 1)
-			AI.Enhance();
+			AI.ToggleEnhancedMode();
 	}
 }
