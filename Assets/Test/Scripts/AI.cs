@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
-	Basic AI for the ghost racer. It uses a RaceRecorder object to move without physics.
+	AI: Basic AI for the ghost racer. It uses a RaceRecorder object to move without physics.
 	Enhanced mode uses an optimized version of the RaceRecorder's actual curve.
 */
 public class AI : MonoBehaviour {

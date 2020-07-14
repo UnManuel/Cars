@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+	Player: Basic player controller.
+*/
 public class Player : MonoBehaviour {
 
 	public Character character;
