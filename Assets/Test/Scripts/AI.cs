@@ -20,10 +20,16 @@ public class AI : MonoBehaviour {
 	// Beginning of the player record
 	LinkedListNode<TapeNode> RecordHead;
 
+	/*
+		Start: Let's get the beginning of the record.
+	*/
 	void Start() {
 		RecordHead = Recorder.GetRecordHead();
 	}
 
+	/*
+		FixedUpdate: Target object is moved thru the recorded curve using the stored velocity.
+	*/
 	void FixedUpdate() {
 		
 		// We need two samples to interpolate
@@ -60,7 +66,7 @@ public class AI : MonoBehaviour {
 
 		Params:
 
-		enhanced(bool = 0): Enhanced mode flag.
+		enhanced(bool = true): Enhanced mode flag.
 	*/
 	public void ToggleEnhancedMode(bool enhanced = true) {
 		Recorder.ToggleOptimalPath(enhanced);

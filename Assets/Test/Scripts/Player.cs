@@ -13,6 +13,9 @@ public class Player : MonoBehaviour {
 
 	public Rigidbody Body;			// Physical object to move
 
+	/*
+		Update: Velocity is stored for lap checking (TO-DO)
+	*/
 	void Update() {
 		Character.Velocity = Body.velocity;
 	}

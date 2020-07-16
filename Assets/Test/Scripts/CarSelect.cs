@@ -11,25 +11,28 @@ using UnityEngine.SceneManagement;
 */
 public class CarSelect : MonoBehaviour {
 
-    public CarStats[] Stats;    // We will store car specs here
-    public CarStats MaxStats;   // Maximum specs to compare
+    public CarSpecification[] Specifications;   // We will store car specs here
+    public CarSpecification MaxSpecification;   // Maximum specs to compare
 
     public GameObject[] Cars;   // Example models
 
     public Text NameLabel;      // Name of the car
 
     // Spec bars
-    public RectTransform SpeedBar, AccelBar, BrakingBar, HandlingBar;
+    public RectTransform SpeedBar, AccelerationBar, BrakingBar, HandlingBar;
 	
     // Car selection buttons
     public RectTransform[] CarButtons;
     public RectTransform Selector;
     
     // Current and previous selection
-    int SelectedIndex = 0, PrevIndex = -1;
+    int SelectedIndex = 0, PreviousIndex = -1;
 
+    /*
+        Start: View is started with the default car at index zero
+    */
     void Start() {
-    	RefreshStats();
+    	RefreshSpecification();
     }
 
     /*
@@ -41,10 +44,10 @@ public class CarSelect : MonoBehaviour {
     */
     public void ChangeCar(int index) {
 
-    	PrevIndex = SelectedIndex;
+    	PreviousIndex = SelectedIndex;
     	SelectedIndex = index;
 
-    	RefreshStats();
+    	RefreshSpecification();
     }
 
     /*
@@ -60,23 +63,23 @@ public class CarSelect : MonoBehaviour {
     }
 
     /*
-        RefreshStats: Car select view is fully refreshed based upon current car index.
+        RefreshSpecification: Car select view is fully refreshed based upon current car index.
     */
-    void RefreshStats() {
+    void RefreshSpecification() {
 
-    	NameLabel.text = Stats[SelectedIndex].Name;
+    	NameLabel.text = Specifications[SelectedIndex].Name;
 
-    	SpeedBar.transform.localScale = new Vector3(Stats[SelectedIndex].MaxSpeed / MaxStats.MaxSpeed, 1, 1);
-    	AccelBar.transform.localScale = new Vector3(Stats[SelectedIndex].Acceleration / MaxStats.Acceleration, 1, 1);
-    	BrakingBar.transform.localScale = new Vector3(Stats[SelectedIndex].BrakingTime / MaxStats.BrakingTime, 1, 1);
-    	HandlingBar.transform.localScale = new Vector3(Stats[SelectedIndex].Handling / MaxStats.Handling, 1, 1);
+    	SpeedBar.transform.localScale = new Vector3(Specifications[SelectedIndex].MaxSpeed / MaxSpecification.MaxSpeed, 1, 1);
+    	AccelerationBar.transform.localScale = new Vector3(Specifications[SelectedIndex].Acceleration / MaxSpecification.Acceleration, 1, 1);
+    	BrakingBar.transform.localScale = new Vector3(Specifications[SelectedIndex].BrakingTime / MaxSpecification.BrakingTime, 1, 1);
+    	HandlingBar.transform.localScale = new Vector3(Specifications[SelectedIndex].Handling / MaxSpecification.Handling, 1, 1);
 
         // Previous selection is disabled
-    	if(PrevIndex != -1) {
+    	if(PreviousIndex != -1) {
 
-            Cars[PrevIndex].SetActive(false);
+            Cars[PreviousIndex].SetActive(false);
             
-            Cars[SelectedIndex].transform.localRotation = Cars[PrevIndex].transform.localRotation;
+            Cars[SelectedIndex].transform.localRotation = Cars[PreviousIndex].transform.localRotation;
         }
 
     	Cars[SelectedIndex].SetActive(true);

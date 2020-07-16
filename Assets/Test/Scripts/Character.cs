@@ -19,8 +19,16 @@ public class Character : MonoBehaviour {
 	[HideInInspector]
 	public Vector3 Velocity;	// Velocity data to verify laps
 
-	// TO-DO: Use velocity to prevent lap miscount
+	/*
+		LapCheck: Checks if a lap has been succesfully completed.
+
+		Params:
+
+		finish(FinishLine): A reference to the finish line, useful to compare against a racer.
+	*/	
 	public void LapCheck(FinishLine finish) {
+		
+		// TO-DO: Use velocity to prevent lap miscount
 
 		++LapCount;
 

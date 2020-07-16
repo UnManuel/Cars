@@ -11,6 +11,9 @@ public class Spinner : MonoBehaviour {
 
 	public float Speed;		// Set spin speed here
 
+	/*
+		Update: Rotates the object around Y axis.
+	*/
 	void Update() {
 		if(Speed != 0)
 			transform.Rotate(Vector3.up, Speed * Time.deltaTime);

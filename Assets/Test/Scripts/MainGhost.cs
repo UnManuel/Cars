@@ -13,6 +13,9 @@ public class MainGhost : MonoBehaviour {
 	public Player Player;	// Player racer
 	public AI AI;			// AI racer
 
+	/*
+		Start: Ghost is registered by the system then hidden.
+	*/
 	void Start() {
 		AI.gameObject.SetActive(false);
 	}

@@ -54,11 +54,17 @@ public class RaceRecorder : MonoBehaviour {
 	// Snapshots are stored here
 	LinkedList<TapeNode> Tape = new LinkedList<TapeNode>();
 
+	/*
+		Awake: The tape is started with the initial position of the car.
+	*/
 	void Awake() {
 		BasePoint.SetPositionAndRotation(Car.transform.position, Car.transform.rotation);
 		Tape.AddLast(new TapeNode(0, Vector3.zero, BasePoint.transform.position, Optimizer.Optimize(BasePoint.transform.position), BasePoint));
 	}
 
+	/*
+		FixedUpdate: We store the snapshots at a fixed rate after the initial cooldown.
+	*/
 	void FixedUpdate() {
 
 		if(StartTime < StartDelay)

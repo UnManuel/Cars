@@ -1361,46 +1361,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57cc828455302844883af2839fcb5126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats:
-  - id: 0
-    name: McQueen
-    maxSpeed: 15
-    acceleration: 4
-    brakingTime: 0.2
-    handling: 1
-  - id: 1
-    name: Beetle
-    maxSpeed: 5
-    acceleration: 3
-    brakingTime: 0.5
-    handling: 2
-  - id: 2
-    name: Turbo
-    maxSpeed: 10
-    acceleration: 5
-    brakingTime: 0.8
-    handling: 1.5
-  maxStats:
-    id: 0
-    name: 
-    maxSpeed: 20
-    acceleration: 6
-    brakingTime: 1
-    handling: 3
-  nameLabel: {fileID: 2057758156}
-  cars:
+  Specifications:
+  - Id: 0
+    Name: MacQueen
+    MaxSpeed: 0.6
+    Acceleration: 0.8
+    BrakingTime: 0.7
+    Handling: 0.9
+  - Id: 1
+    Name: Beetle
+    MaxSpeed: 0.5
+    Acceleration: 0.4
+    BrakingTime: 0.5
+    Handling: 0.6
+  - Id: 2
+    Name: Turbo
+    MaxSpeed: 0.7
+    Acceleration: 0.9
+    BrakingTime: 0.8
+    Handling: 0.7
+  MaxSpecification:
+    Id: -1
+    Name: Max
+    MaxSpeed: 1
+    Acceleration: 1
+    BrakingTime: 1
+    Handling: 1
+  Cars:
   - {fileID: 3934862070802839723}
   - {fileID: 1024034025}
   - {fileID: 1176107396}
-  speedBar: {fileID: 1416052771}
-  accelBar: {fileID: 1237597069}
-  brakingBar: {fileID: 490256826}
-  handlingBar: {fileID: 2021807857}
-  carButtons:
+  NameLabel: {fileID: 2057758156}
+  SpeedBar: {fileID: 1416052771}
+  AccelerationBar: {fileID: 1237597069}
+  BrakingBar: {fileID: 490256826}
+  HandlingBar: {fileID: 2021807857}
+  CarButtons:
   - {fileID: 466241659}
   - {fileID: 841324912}
   - {fileID: 1224629314}
-  selector: {fileID: 544203891}
+  Selector: {fileID: 544203891}
 --- !u!1 &425633266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1524,7 +1524,7 @@ RectTransform:
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_Children: []
   m_Father: {fileID: 1660226608}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1969,7 +1969,7 @@ GameObject:
   - component: {fileID: 544203894}
   - component: {fileID: 544203893}
   m_Layer: 5
-  m_Name: Selector
+  m_Name: Car Selector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2218,7 +2218,7 @@ GameObject:
   - component: {fileID: 584000308}
   - component: {fileID: 584000307}
   m_Layer: 5
-  m_Name: Bar Bg
+  m_Name: Handling Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3749,7 +3749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ec384d708e22d347a9bcf4e14089d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  Speed: 10
 --- !u!1 &1035975319
 GameObject:
   m_ObjectHideFlags: 0
@@ -4417,7 +4417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ec384d708e22d347a9bcf4e14089d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  Speed: 10
 --- !u!1 &1180495208
 GameObject:
   m_ObjectHideFlags: 0
@@ -4428,7 +4428,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1180495209}
   m_Layer: 0
-  m_Name: Cars
+  m_Name: Car Samples
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4482,7 +4482,7 @@ RectTransform:
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_Children: []
   m_Father: {fileID: 1660226608}
-  m_RootOrder: 8
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4592,7 +4592,7 @@ GameObject:
   - component: {fileID: 1237597071}
   - component: {fileID: 1237597070}
   m_Layer: 5
-  m_Name: Accel Bar
+  m_Name: Acceleration Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5437,7 +5437,7 @@ GameObject:
   - component: {fileID: 1480890582}
   - component: {fileID: 1480890581}
   m_Layer: 5
-  m_Name: Bar Bg
+  m_Name: Speed Bar Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5636,7 +5636,7 @@ GameObject:
   - component: {fileID: 1558200029}
   - component: {fileID: 1558200028}
   m_Layer: 5
-  m_Name: Bar Bg
+  m_Name: Braking Bar Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5952,7 +5952,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 1114451871}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -5982,9 +5982,9 @@ RectTransform:
   - {fileID: 1558200027}
   - {fileID: 584000306}
   - {fileID: 544203891}
-  - {fileID: 1224629314}
-  - {fileID: 841324912}
   - {fileID: 466241659}
+  - {fileID: 841324912}
+  - {fileID: 1224629314}
   - {fileID: 330867908}
   - {fileID: 182896654}
   m_Father: {fileID: 0}
@@ -7356,7 +7356,7 @@ GameObject:
   - component: {fileID: 2030381115}
   - component: {fileID: 2030381114}
   m_Layer: 5
-  m_Name: Frame
+  m_Name: Sample Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7430,7 +7430,7 @@ GameObject:
   - component: {fileID: 2031228176}
   - component: {fileID: 2031228175}
   m_Layer: 5
-  m_Name: Bar Bg
+  m_Name: Acceleration Bar Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8200,7 +8200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ec384d708e22d347a9bcf4e14089d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  Speed: 10
 --- !u!4 &3934862070802839729
 Transform:
   m_ObjectHideFlags: 0
