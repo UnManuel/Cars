@@ -13,16 +13,17 @@ public class TapeNode {
 
 	const float MIN_SPEED = 0.1f;
 
-	public float time;
-	public Vector3 velocity, point, optimalPoint;
-	public Transform transform;
+	public float Time;
+	public Vector3 Velocity;
+	public Vector3 Point, OptimalPoint;
+	public Transform Transform;
 
-	public TapeNode(float _time, Vector3 _velocity, Vector3 _point, Vector3 _optimalPoint, Transform _transform) {
-		time = _time;
-		velocity = _velocity.magnitude < MIN_SPEED ? Vector3.zero : _velocity;	// Enforces full-stop
-		point = _point;
-		optimalPoint = _optimalPoint;
-		transform = _transform;
+	public TapeNode(float time, Vector3 velocity, Vector3 point, Vector3 optimalPoint, Transform transform) {
+		Time = time;
+		Velocity = velocity.magnitude < MIN_SPEED ? Vector3.zero : velocity;	// Enforces full-stop
+		Point = point;
+		OptimalPoint = optimalPoint;
+		Transform = transform;
 	}
 }
 
@@ -34,86 +35,101 @@ public class TapeNode {
 */
 public class RaceRecorder : MonoBehaviour {
 
-	public float startDelay = 3, samplingDelay = 1;
+	public float StartDelay = 3;		// Time before recording
+	public float SamplingDelay = 1;		// Snapshot time
 
-	public Rigidbody car;
+	public Rigidbody Car;			// Physical object to record
     
-	public Spline path;
+	public Spline Path;				// Visual aid of the recorded curve
 
-	// Dummy point to create duplicates
-	public Transform basePoint;
+	public Transform BasePoint;		// Dummy point to create duplicates
 
-	// Optimizer delegate
-	public Optimizer optimizer;
+	public Optimizer Optimizer;		// Optimizer delegate
 
-	bool optimize = false;
-	float time = 0, startTime = 0, recordTime = 0;
+	bool Optimize = false;			// Optimized mode flag
 
-	LinkedList<TapeNode> tape = new LinkedList<TapeNode>();
+	// Control timers
+	float Timer = 0, StartTime = 0, RecordTime = 0;
+
+	// Snapshots are stored here
+	LinkedList<TapeNode> Tape = new LinkedList<TapeNode>();
 
 	void Awake() {
-		basePoint.SetPositionAndRotation(car.transform.position, car.transform.rotation);
-		tape.AddLast(new TapeNode(0, Vector3.zero, basePoint.transform.position, optimizer.Optimize(basePoint.transform.position), basePoint));
+		BasePoint.SetPositionAndRotation(Car.transform.position, Car.transform.rotation);
+		Tape.AddLast(new TapeNode(0, Vector3.zero, BasePoint.transform.position, Optimizer.Optimize(BasePoint.transform.position), BasePoint));
 	}
 
 	void FixedUpdate() {
 
-		if(startTime < startDelay)
-			startTime += Time.fixedDeltaTime;
+		if(StartTime < StartDelay)
+			StartTime += Time.fixedDeltaTime;
 
 		else {
         
-	        time += Time.fixedDeltaTime;
+	        Timer += Time.fixedDeltaTime;
 
 	        // Snapshots are evenly sampled, then interpolated
-	        if(time > samplingDelay) {
+	        if(Timer > SamplingDelay) {
 
-	        	recordTime += time;
-	        	time -= samplingDelay;
+	        	RecordTime += Timer;
+	        	Timer -= SamplingDelay;
 
-	        	Transform transform = Instantiate(basePoint, basePoint.parent);
+	        	Transform transform = Instantiate(BasePoint, BasePoint.parent);
 
-	        	Vector3 position = optimizer.Optimize(car.transform.position);
+	        	Vector3 position = Optimizer.Optimize(Car.transform.position);
 
-		        transform.SetPositionAndRotation(optimize ? position : car.transform.position, car.transform.rotation);
+		        transform.SetPositionAndRotation(Optimize ? position : Car.transform.position, Car.transform.rotation);
 
-		        tape.AddLast(new TapeNode(recordTime, car.velocity, car.transform.position, position, transform));
+		        Tape.AddLast(new TapeNode(RecordTime, Car.velocity, Car.transform.position, position, transform));
 
 		        // Catmull-Rom splines are made out of 4 or more vertices
-	        	if(tape.Count > 3) {
+	        	if(Tape.Count > 3) {
 
 	        		int i = 0;
 
-	        		Transform[] points = new Transform[tape.Count];
+	        		Transform[] points = new Transform[Tape.Count];
 
-	        		foreach(TapeNode node in tape)
-	        			points[i++] = node.transform;
+	        		foreach(TapeNode node in Tape)
+	        			points[i++] = node.Transform;
 
 	        		// We must replace the entire array with the current spline implementation
-	        		path.controlPoints = points;
+	        		Path.controlPoints = points;
 	        	}
 	        }
 	    }
     }
 
-    public void ToggleOptimalPath(bool _optimize = true) {
+    /*
+		ToggleOptimalPath: The recorder will provide an optimized curve when enabled.
+
+		Params:
+
+		optimize(bool = 0): Optimized mode flag.
+	*/
+    public void ToggleOptimalPath(bool optimize = true) {
 
     	int i = 0;
 
-    	optimize = _optimize;
+    	Optimize = optimize;
 
     	// TO-DO: Transition is not smoothed-out!
-    	foreach(TapeNode node in tape)
-    		path.controlPoints[i++].position = optimize ? node.optimalPoint : node.point;
+    	foreach(TapeNode node in Tape)
+    		Path.controlPoints[i++].position = Optimize ? node.OptimalPoint : node.Point;
 
-    	path.color = optimize ? Color.green : Color.cyan;
+    	Path.color = Optimize ? Color.green : Color.cyan;
     }
 
+    /*
+		GetRecordHead: Returns the first sample of the recording.
+	*/
     public LinkedListNode<TapeNode> GetRecordHead() {
-    	return tape.First;
+    	return Tape.First;
     }
 
+    /*
+		GetRecordTime: Returns the total time of the samples recorded.
+	*/
     public float GetRecordTime() {
-    	return recordTime;
+    	return RecordTime;
     }
 }

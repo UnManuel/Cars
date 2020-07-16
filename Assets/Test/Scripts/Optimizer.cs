@@ -9,6 +9,13 @@ using UnityEngine;
 */
 public class Optimizer : MonoBehaviour {
 
+	/*
+		Optimize: Override this to optimize based upon custom criteria.
+
+		Params:
+
+		point(Vector3): The point of the path to be optimized.
+	*/
 	public virtual Vector3 Optimize(Vector3 point) {
 		return point;
 	}

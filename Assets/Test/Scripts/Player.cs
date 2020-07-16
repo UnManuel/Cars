@@ -9,11 +9,11 @@ using UnityEngine;
 */
 public class Player : MonoBehaviour {
 
-	public Character character;
+	public Character Character;		// Racer model
 
-	public Rigidbody body;
+	public Rigidbody Body;			// Physical object to move
 
 	void Update() {
-		character.velocity = body.velocity;
+		Character.Velocity = Body.velocity;
 	}
 }

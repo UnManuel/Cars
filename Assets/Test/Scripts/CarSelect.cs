@@ -11,62 +11,76 @@ using UnityEngine.SceneManagement;
 */
 public class CarSelect : MonoBehaviour {
 
-    public CarStats[] stats;    // We will store car specs here
-    public CarStats maxStats;   // Maximum specs to compare
+    public CarStats[] Stats;    // We will store car specs here
+    public CarStats MaxStats;   // Maximum specs to compare
 
-    public GameObject[] cars;   // Example models
+    public GameObject[] Cars;   // Example models
 
-    public Text nameLabel;      // Name of the car
+    public Text NameLabel;      // Name of the car
 
     // Spec bars
-    public RectTransform speedBar, accelBar, brakingBar, handlingBar;
+    public RectTransform SpeedBar, AccelBar, BrakingBar, HandlingBar;
 	
     // Car selection buttons
-    public RectTransform[] carButtons;
-    public RectTransform selector;
+    public RectTransform[] CarButtons;
+    public RectTransform Selector;
     
     // Current and previous selection
-    int selectedIndex = 0, prevIndex = -1;
+    int SelectedIndex = 0, PrevIndex = -1;
 
     void Start() {
     	RefreshStats();
     }
 
+    /*
+        ChangeCar: Callback to replace the currently selected car.
+
+        Params:
+
+        index(int: 0 - Stars.Length - 1): Index of the car to select.
+    */
     public void ChangeCar(int index) {
 
-    	prevIndex = selectedIndex;
-    	selectedIndex = index;
+    	PrevIndex = SelectedIndex;
+    	SelectedIndex = index;
 
     	RefreshStats();
     }
 
+    /*
+        GameStart: Current car is stored then gameplay screen is loaded.
+    */
     public void GameStart() {
 
     	// car_index will store the last chosen car for future play sessions
-        PlayerPrefs.SetInt("car_index", selectedIndex);
+        PlayerPrefs.SetInt("car_index", SelectedIndex);
 
+        // Gameplay scene is loaded
     	SceneManager.LoadScene("MainScene");
     }
 
+    /*
+        RefreshStats: Car select view is fully refreshed based upon current car index.
+    */
     void RefreshStats() {
 
-    	nameLabel.text = stats[selectedIndex].name;
+    	NameLabel.text = Stats[SelectedIndex].Name;
 
-    	speedBar.transform.localScale = new Vector3(stats[selectedIndex].maxSpeed / maxStats.maxSpeed, 1, 1);
-    	accelBar.transform.localScale = new Vector3(stats[selectedIndex].acceleration / maxStats.acceleration, 1, 1);
-    	brakingBar.transform.localScale = new Vector3(stats[selectedIndex].brakingTime / maxStats.brakingTime, 1, 1);
-    	handlingBar.transform.localScale = new Vector3(stats[selectedIndex].handling / maxStats.handling, 1, 1);
+    	SpeedBar.transform.localScale = new Vector3(Stats[SelectedIndex].MaxSpeed / MaxStats.MaxSpeed, 1, 1);
+    	AccelBar.transform.localScale = new Vector3(Stats[SelectedIndex].Acceleration / MaxStats.Acceleration, 1, 1);
+    	BrakingBar.transform.localScale = new Vector3(Stats[SelectedIndex].BrakingTime / MaxStats.BrakingTime, 1, 1);
+    	HandlingBar.transform.localScale = new Vector3(Stats[SelectedIndex].Handling / MaxStats.Handling, 1, 1);
 
         // Previous selection is disabled
-    	if(prevIndex != -1) {
+    	if(PrevIndex != -1) {
 
-            cars[prevIndex].SetActive(false);
+            Cars[PrevIndex].SetActive(false);
             
-            cars[selectedIndex].transform.localRotation = cars[prevIndex].transform.localRotation;
+            Cars[SelectedIndex].transform.localRotation = Cars[PrevIndex].transform.localRotation;
         }
 
-    	cars[selectedIndex].SetActive(true);
+    	Cars[SelectedIndex].SetActive(true);
 
-    	selector.localPosition = carButtons[selectedIndex].localPosition;
+    	Selector.localPosition = CarButtons[SelectedIndex].localPosition;
     }
 }

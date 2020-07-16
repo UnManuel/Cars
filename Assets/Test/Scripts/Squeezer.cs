@@ -9,10 +9,17 @@ using UnityEngine;
 */
 public class Squeezer : Optimizer {
 
-	public Transform pivot;
-	public float minSqueeze, maxSqueeze;
+	public Transform Pivot;					// Center point of the squeeze
+	public float MinSqueeze, MaxSqueeze;	// Squeeze range - Works well with round tracks!
 
+	/*
+		Optimize: It will optimize point by squeezing it between MinSqueeze and MaxSqueeze.
+
+		Params:
+
+		point(Vector3): The point of the path to be squeezed.
+	*/
 	public override Vector3 Optimize(Vector3 point) {
-		return ((point - pivot.position) * maxSqueeze - (point - pivot.position) * (maxSqueeze - minSqueeze)) + pivot.position;
+		return ((point - Pivot.position) * MaxSqueeze - (point - Pivot.position) * (MaxSqueeze - MinSqueeze)) + Pivot.position;
 	}
 }

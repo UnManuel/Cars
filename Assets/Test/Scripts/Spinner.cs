@@ -9,10 +9,10 @@ using UnityEngine;
 */
 public class Spinner : MonoBehaviour {
 
-	public float speed;
+	public float Speed;		// Set spin speed here
 
 	void Update() {
-		if(speed != 0)
-			transform.Rotate(Vector3.up, speed * Time.deltaTime);
+		if(Speed != 0)
+			transform.Rotate(Vector3.up, Speed * Time.deltaTime);
 	}
 }

@@ -10,23 +10,29 @@ using UnityEngine.SceneManagement;
 */
 public class MainGhost : MonoBehaviour {
 
-	public Player player;
-	public AI AI;
+	public Player Player;	// Player racer
+	public AI AI;			// AI racer
 
 	void Start() {
 		AI.gameObject.SetActive(false);
 	}
 
-	public void EnableAI() {
-		if(player.character.lapCount == 1)
+	/*
+		LapComplete: Callback for the player racer each time a lap is complete.
+	*/
+	public void LapComplete() {
+		if(Player.Character.LapCount == 1)
 			AI.gameObject.SetActive(true);
 
-		if(player.character.lapCount == 3)
+		if(Player.Character.LapCount == 3)
 			SceneManager.LoadScene("CarSelect");
 	}
 
+	/*
+		EnhanceAI: Callback for the AI racer each time a lap is complete.
+	*/
 	public void EnhanceAI() {
-		if(AI.character.lapCount == 1)
+		if(AI.Character.LapCount == 1)
 			AI.ToggleEnhancedMode();
 	}
 }

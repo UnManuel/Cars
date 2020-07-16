@@ -10,55 +10,59 @@ using UnityEngine;
 */
 public class AI : MonoBehaviour {
 
-	public Character character;
+	public Character Character;		// Racer model
+	
+	public RaceRecorder Recorder;	// Player recorder
 
-	public GameObject target;
+	// Main timer
+	float Timer = 0;
 
-	public RaceRecorder recorder;
-
-	float time = 0;
-
-	LinkedListNode<TapeNode> recordHead;
+	// Beginning of the player record
+	LinkedListNode<TapeNode> RecordHead;
 
 	void Start() {
-		recordHead = recorder.GetRecordHead();
+		RecordHead = Recorder.GetRecordHead();
 	}
 
 	void FixedUpdate() {
 		
 		// We need two samples to interpolate
-		if(recordHead.Next != null)
+		if(RecordHead.Next != null)
 
-			if(recordHead.Value.velocity.magnitude > 0) {
+			if(RecordHead.Value.Velocity.magnitude > 0) {
 
 				// We move the ghost using velocity instead of time
-				time += (Time.fixedDeltaTime / recorder.samplingDelay * Vector3.Distance(recordHead.Value.point, recordHead.Next.Value.point)) / ((recordHead.Value.velocity.magnitude + recordHead.Next.Value.velocity.magnitude) / 2);
+				Timer += (Time.fixedDeltaTime / Recorder.SamplingDelay * Vector3.Distance(RecordHead.Value.Point, RecordHead.Next.Value.Point)) / ((RecordHead.Value.Velocity.magnitude + RecordHead.Next.Value.Velocity.magnitude) / 2);
 				
+				// Normalized position
+				float f = (Timer - RecordHead.Value.Time) / (RecordHead.Next.Value.Time - RecordHead.Value.Time);
+
+				// Interpolated position
+				Vector3 position = iTween.PointOnPath(Recorder.Path.controlPoints, Timer / Recorder.GetRecordTime());
+				// Interpolated rotation
+				Quaternion rotation = Quaternion.Slerp(RecordHead.Value.Transform.rotation, RecordHead.Next.Value.Transform.rotation, f);
+
+				transform.SetPositionAndRotation(position, rotation);
+
+				// Interpolated velocity
+				Character.Velocity = Vector3.Slerp(RecordHead.Value.Velocity, RecordHead.Next.Value.Velocity, f);
+
 				// Moving through the linked list using time to detect ranges
-				if(time > recordHead.Next.Value.time)
-					recordHead = recordHead.Next;
-
-				if(recordHead.Next != null) {
-
-					// Normalized position
-					float f = (time - recordHead.Value.time) / (recordHead.Next.Value.time - recordHead.Value.time);
-
-					// Interpolated position
-					Vector3 position = iTween.PointOnPath(recorder.path.controlPoints, time / recorder.GetRecordTime());
-					// Interpolated rotation
-					Quaternion rotation = Quaternion.Slerp(recordHead.Value.transform.rotation, recordHead.Next.Value.transform.rotation, f);
-
-					target.transform.SetPositionAndRotation(position, rotation);
-
-					// Interpolated velocity
-					character.velocity = Vector3.Slerp(recordHead.Value.velocity, recordHead.Next.Value.velocity, f);
-				}
+				if(Timer > RecordHead.Next.Value.Time)
+					RecordHead = RecordHead.Next;
 
 			} else
-				recordHead = recordHead.Next;
+				RecordHead = RecordHead.Next;
 	}
 
+	/*
+		ToggleEnhancedMode: AI will use an optimized version of the player record when enabled.
+
+		Params:
+
+		enhanced(bool = 0): Enhanced mode flag.
+	*/
 	public void ToggleEnhancedMode(bool enhanced = true) {
-		recorder.ToggleOptimalPath(enhanced);
+		Recorder.ToggleOptimalPath(enhanced);
 	}
 }

@@ -11,10 +11,10 @@ using UnityEngine;
 [System.Serializable]
 public class CarStats {
 
-	public int id;
-	public string name;
-	public float maxSpeed;
-	public float acceleration;
-	public float brakingTime;
-	public float handling;
+	public int Id;
+	public string Name;
+	public float MaxSpeed;
+	public float Acceleration;
+	public float BrakingTime;
+	public float Handling;
 }
