@@ -56,14 +56,14 @@ public class RaceRecorder : MonoBehaviour {
 		tape.AddLast(new TapeNode(0, Vector3.zero, basePoint.transform.position, optimizer.Optimize(basePoint.transform.position), basePoint));
 	}
 
-	void Update() {
+	void FixedUpdate() {
 
 		if(startTime < startDelay)
-			startTime += Time.deltaTime;
+			startTime += Time.fixedDeltaTime;
 
 		else {
         
-	        time += Time.deltaTime;
+	        time += Time.fixedDeltaTime;
 
 	        // Snapshots are evenly sampled, then interpolated
 	        if(time > samplingDelay) {
