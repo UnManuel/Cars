@@ -99,7 +99,7 @@ public class RaceRecorder : MonoBehaviour {
 	    }
     }
 
-    /*
+	/*
 		ToggleOptimalPath: The recorder will provide an optimized curve when enabled.
 
 		Params:
@@ -119,14 +119,14 @@ public class RaceRecorder : MonoBehaviour {
     	Path.color = Optimize ? Color.green : Color.cyan;
     }
 
-    /*
+	/*
 		GetRecordHead: Returns the first sample of the recording.
 	*/
     public LinkedListNode<TapeNode> GetRecordHead() {
     	return Tape.First;
     }
 
-    /*
+	/*
 		GetRecordTime: Returns the total time of the samples recorded.
 	*/
     public float GetRecordTime() {
