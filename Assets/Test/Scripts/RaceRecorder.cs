@@ -110,7 +110,7 @@ public class RaceRecorder : MonoBehaviour {
 
 		Params:
 
-		optimize(bool = 0): Optimized mode flag.
+		optimize(bool = true): Optimized mode flag.
 	*/
     public void ToggleOptimalPath(bool optimize = true) {
 
