@@ -11,7 +11,7 @@ using UnityEngine;
 */
 public class TapeNode {
 
-	const float MIN_SPEED = 0.1f;
+	const float MINIMUM_SPEED = 0.1f;
 
 	public float Time;
 	public Vector3 Velocity;
@@ -20,7 +20,7 @@ public class TapeNode {
 
 	public TapeNode(float time, Vector3 velocity, Vector3 point, Vector3 optimalPoint, Transform transform) {
 		Time = time;
-		Velocity = velocity.magnitude < MIN_SPEED ? Vector3.zero : velocity;	// Enforces full-stop
+		Velocity = velocity.magnitude < MINIMUM_SPEED ? Vector3.zero : velocity;	// Enforces full-stop
 		Point = point;
 		OptimalPoint = optimalPoint;
 		Transform = transform;
