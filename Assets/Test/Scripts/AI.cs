@@ -24,7 +24,7 @@ public class AI : MonoBehaviour {
 		recordHead = recorder.GetRecordHead();
 	}
 
-	void Update() {
+	void FixedUpdate() {
 		
 		// We need two samples to interpolate
 		if(recordHead.Next != null)
@@ -32,25 +32,27 @@ public class AI : MonoBehaviour {
 			if(recordHead.Value.velocity.magnitude > 0) {
 
 				// We move the ghost using velocity instead of time
-				time += Time.deltaTime * Vector3.Distance(recordHead.Value.point, recordHead.Next.Value.point) / ((recordHead.Value.velocity.magnitude + recordHead.Next.Value.velocity.magnitude) / 2);
+				time += (Time.fixedDeltaTime / recorder.samplingDelay * Vector3.Distance(recordHead.Value.point, recordHead.Next.Value.point)) / ((recordHead.Value.velocity.magnitude + recordHead.Next.Value.velocity.magnitude) / 2);
 				
 				// Moving through the linked list using time to detect ranges
 				if(time > recordHead.Next.Value.time)
 					recordHead = recordHead.Next;
 
-				// Interpolated position
-				Vector3 position = iTween.PointOnPath(recorder.path.controlPoints, time / recorder.GetRecordTime());
-				
-				// Normalized position
-				float f = (time - recordHead.Value.time) / (recordHead.Next.Value.time - recordHead.Value.time);
+				if(recordHead.Next != null) {
 
-				// Interpolated rotation
-				Quaternion rotation = Quaternion.Slerp(recordHead.Value.transform.rotation, recordHead.Next.Value.transform.rotation, f);
+					// Normalized position
+					float f = (time - recordHead.Value.time) / (recordHead.Next.Value.time - recordHead.Value.time);
 
-				target.transform.SetPositionAndRotation(position, rotation);
+					// Interpolated position
+					Vector3 position = iTween.PointOnPath(recorder.path.controlPoints, time / recorder.GetRecordTime());
+					// Interpolated rotation
+					Quaternion rotation = Quaternion.Slerp(recordHead.Value.transform.rotation, recordHead.Next.Value.transform.rotation, f);
 
-				// Interpolated velocity
-				character.velocity = Vector3.Slerp(recordHead.Value.velocity, recordHead.Next.Value.velocity, f);
+					target.transform.SetPositionAndRotation(position, rotation);
+
+					// Interpolated velocity
+					character.velocity = Vector3.Slerp(recordHead.Value.velocity, recordHead.Next.Value.velocity, f);
+				}
 
 			} else
 				recordHead = recordHead.Next;
